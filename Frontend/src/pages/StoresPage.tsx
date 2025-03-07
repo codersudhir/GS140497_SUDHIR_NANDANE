@@ -7,10 +7,6 @@ import { Grip, Trash2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 function StoresPage() {
-  const deleteRow = (params: any, setStoreRowData: React.Dispatch<React.SetStateAction<any[]>>) => {
-    console.log(params);
-    setStoreRowData(prevData => prevData.filter((row, index) => index !== params.value - 1));
-  };
 
   const columnDefs: ColDef[] = [
     { 
@@ -20,13 +16,13 @@ function StoresPage() {
       
       cellRenderer: (params: any) => {
         return (
-          <div className="flex items-center justify-center mt-2">
+          <div className="flex items-center justify-center mt-2 text-base">
             <Grip className="h-6 w-6 text-gray-400 cursor-move" />
           </div>
         );
       },
       headerClass: 'header-separator', 
-      cellClass: 'text-center' 
+      cellClass: 'text-center text-base' 
     },
     { 
       headerName: "", 
@@ -34,13 +30,13 @@ function StoresPage() {
       width: 50, 
       cellRenderer: (params: any) => {
         return (
-          <div className="flex items-center justify-center gap-2 mt-2 cursor-pointer" >
-            <Trash2 className="h-6 w-6 text-black" onClick={() => deleteRow(params, setStoreRowData)} />
+          <div className="flex items-center justify-center gap-2 mt-2 cursor-pointer text-base" >
+            <Trash2 className="h-6 w-6 text-black" onClick={() => deleteRow(params)} />
           </div>
         );
       },
       headerClass: 'header-separator', 
-      cellClass: 'text-center' 
+      cellClass: 'text-center text-base' 
     },
     { 
       headerName: "Sr No", 
@@ -48,14 +44,14 @@ function StoresPage() {
       width: 100,
       rowDrag: true,
       headerClass: 'header-separator', 
-      cellClass: 'text-center',
+      cellClass: 'text-center text-base',
       valueGetter: (params: any) => {
         return params.node.rowIndex + 1;
       }
     },
-    { headerName: "Store", field: "store", width: 200, editable: true, headerClass: 'header-separator', cellClass: 'text-center' },
-    { headerName: "City", field: "city", width: 160, headerClass: 'header-separator', cellClass: 'text-center' },
-    { headerName: "State", field: "state", width: 120, headerClass: 'header-separator', cellClass: 'text-center' },
+    { headerName: "Store", field: "store", width: 200, editable: true, headerClass: 'header-separator', cellClass: ' text-base' },
+    { headerName: "City", field: "city", width: 160, headerClass: 'header-separator', cellClass: ' text-base' },
+    { headerName: "State", field: "state", width: 120, headerClass: 'header-separator', cellClass: ' text-base' },
   ];
 
   const initialStoreRowData = [
@@ -101,14 +97,16 @@ function StoresPage() {
   const onRowDragEnd = (event: any) => {
     const { overIndex, node } = event;
     const draggedData = node.data;
-    const newData = [...storeRowData];
+    const startIndex = node.data.delete;
     
-    // Swap the dragged item with the item at the new position
-    const temp = newData[overIndex];
-    newData[overIndex] = draggedData;
-    newData[node.rowIndex] = temp;
-    console.log(newData);
+    const newData = [...storeRowData];
+    newData[startIndex] = { ...storeRowData[overIndex] };
+    
     setStoreRowData(newData);
+  };
+
+  const deleteRow = (params: any) => {
+    setStoreRowData(prevData => prevData.filter(row => row.delete !== params.data.delete));
   };
 
   const handleCreateStore = (e: React.FormEvent) => {
@@ -126,6 +124,10 @@ function StoresPage() {
     setNewStoreState('');
     setShowCreateStoreModal(false);
   };
+
+  useEffect(() => {
+    setStoreRowData(storeRowData);
+  }, [storeRowData])
   
   return (
     <div className="w-full h-full">

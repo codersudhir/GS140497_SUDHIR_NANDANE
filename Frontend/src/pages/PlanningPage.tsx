@@ -23,9 +23,9 @@ const PlanningPage: React.FC = () => {
     {
       store: 'San Francisco Bay Trends',
       sku: 'Cotton Polo Shirt',
-      price: 139.99,
-      cost: 5.00,
-      'week01_salesUnits': 150,
+      price: 50.00,
+      cost: 46.50,
+      'week01_salesUnits': 10,
       'week02_salesUnits': 100,
     },
     {
@@ -39,9 +39,9 @@ const PlanningPage: React.FC = () => {
     {
       store: 'Dallas Ranch Supply',
       sku: 'Denim Jacket',
-      price: 75.00,
-      cost: 30.00,
-      'week01_salesUnits': 90,
+      price: 10.00,
+      cost: 7,
+      'week01_salesUnits': 100,
       'week02_salesUnits': 60,
     },
     {
@@ -55,18 +55,18 @@ const PlanningPage: React.FC = () => {
     {
       store: 'Nashville Melody Music Store',
       sku: 'Leather Jacket',
-      price: 150.00,
-      cost: 70.00,
-      'week01_salesUnits': 80,
+      price: 199.00,
+      cost: 30.00,
+      'week01_salesUnits': 4792,
       'week02_salesUnits': 50,
     },
     {
       store: 'New York Empire Eats',
       sku: 'Linen Shirt',
-      price: 35.00,
-      cost: 12.00,
-      'week01_salesUnits': 130,
-      'week02_salesUnits': 90,
+      price: 10.00,
+      cost: 6.00,
+      'week01_salesUnits': 100,
+      'week02_salesUnits': 920,
     },
     {
       store: 'Denver Peaks Outdoor',
@@ -87,18 +87,18 @@ const PlanningPage: React.FC = () => {
     {
       store: 'Boston Harbor Books',
       sku: 'Fleece Hoodie',
-      price: 55.00,
-      cost: 22.00,
+      price: 55000.00,
+      cost: 2002.00,
       'week01_salesUnits': 100,
-      'week02_salesUnits': 70,
+      'week02_salesUnits': 700000,
     },
     {
       store: 'Austin Vibe Co.',
       sku: 'Silk Tie',
-      price: 30.00,
+      price: 10.00,
       cost: 10.00,
-      'week01_salesUnits': 90,
-      'week02_salesUnits': 60,
+      'week01_salesUnits': 100,
+      'week02_salesUnits': 60000000,
     },
     {
       store: 'Los Angeles Luxe',
@@ -129,13 +129,13 @@ const PlanningPage: React.FC = () => {
       sku: 'Silk Scarf',
       price: 20.00,
       cost: 15.00,
-      'week01_salesUnits': 100,
-      'week02_salesUnits': 70,
+      'week01_salesUnits': 10000,
+      'week02_salesUnits': 700000000,
     },
     {
       store: 'Las Vegas Neon Treasures',
       sku: 'Cotton Socks',
-      price: 10.00,
+      price: 100000.00,
       cost: 5.00,
       'week01_salesUnits': 150,
       'week02_salesUnits': 100,
@@ -144,9 +144,9 @@ const PlanningPage: React.FC = () => {
       store: 'Seattle Skyline Goods',
       sku: 'Wool Hat',
       price: 25.00,
-      cost: 10.00,
+      cost: 10000.00,
       'week01_salesUnits': 120,
-      'week02_salesUnits': 80,
+      'week02_salesUnits': 1000,
     },
     {
       store: 'Miami Breeze Apparel',
@@ -159,9 +159,9 @@ const PlanningPage: React.FC = () => {
     {
       store: 'San Diego Wave Surf Shop',
       sku: 'Cashmere Sweater',
-      price: 130.00,
-      cost: 60.00,
-      'week01_salesUnits': 80,
+      price: 10.00,
+      cost: 6.00,
+      'week01_salesUnits': 1110,
       'week02_salesUnits': 50,
     },
     {
@@ -194,8 +194,14 @@ const PlanningPage: React.FC = () => {
   };
 
   const columnDefs = useMemo(() => [
-    { field: 'store', headerName: 'Store', pinned: 'left', width: 200 },
-    { field: 'sku', headerName: 'SKU', pinned: 'left', width: 200 },
+    { field: '', headerName: '', width: 0 },
+    { field: 'store', headerName: 'Store', width: 200 },
+    { 
+      field: 'sku', 
+      headerName: 'SKU', 
+      width: 200,
+      cellStyle: { borderRight: '1px solid #babfc7' } 
+    },
     {
       headerName: 'Week 1',
       children: [
@@ -205,6 +211,20 @@ const PlanningPage: React.FC = () => {
           editable: true,
           type: 'numericColumn',
           width: 140,
+          onCellValueChanged: (params: any) => {
+            const updatedSalesDollars = calculateSalesDollars(params.data.week01_salesUnits, params.data.price);
+            const updatedGmDollars = calculateGmDollars(updatedSalesDollars, params.data.week01_salesUnits, params.data.cost);
+            const updatedGmPercentage = calculateGmPercentage(updatedGmDollars, updatedSalesDollars);
+            
+            params.api.applyTransaction({
+              update: [{
+                ...params.data,
+                week01_salesDollars: updatedSalesDollars,
+                week01_gmDollars: updatedGmDollars,
+                week01_gmPercentage: updatedGmPercentage
+              }]
+            });
+          }
         },
         {
           headerName: 'Sales Dollars',
@@ -299,8 +319,7 @@ const PlanningPage: React.FC = () => {
   }), []);
 
   return (
-    <div className="h-[calc(100vh-10rem)] w-full p-4">
-      <h1 className="text-2xl font-bold mb-6">Planning</h1>
+    <div className="h-[90vh] w-full px-2">
       <div className="ag-theme-alpine w-full h-full overflow-auto">
         <AgGridReact
           rowData={rowData}

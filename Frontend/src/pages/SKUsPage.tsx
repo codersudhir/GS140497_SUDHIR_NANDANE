@@ -42,9 +42,9 @@ function SKUsPage() {
       headerClass: 'header-separator', 
       cellClass: 'text-center' 
     },
-    { headerName: "Sku", field: "sku", width: 200, editable: true, headerClass: 'header-separator', cellClass: 'text-center' },
-    { headerName: "Price", field: "price", width: 160, headerClass: 'header-separator', cellClass: 'text-center' },
-    { headerName: "Cost", field: "cost", width: 120, headerClass: 'header-separator', cellClass: 'text-center' },
+    { headerName: "Sku", field: "sku", width: 200, editable: true, headerClass: 'header-separator', cellClass: 'text-center text-base' },
+    { headerName: "Price", field: "price", width: 160, headerClass: 'header-separator', cellClass: 'text-center text-base' },
+    { headerName: "Cost", field: "cost", width: 120, headerClass: 'header-separator', cellClass: 'text-center text-base' },
   ];
 
   const initialSkuRowData = [

@@ -81,7 +81,7 @@ export default function ChartsPage() {
       </div>
 
       {/* Chart Card */}
-      <div className="bg-gray-800 text-white p-4 rounded-lg shadow-lg">
+      <div className="bg-gray-800 text-white p-4 rounded-lg shadow-lg border border-gray-700 min-w-[700px]">
         <h2 className="text-center text-lg font-bold">Gross Margin</h2>
         <div className="h-[500px] w-full mt-4">
           <ResponsiveContainer width="100%" height="100%">
