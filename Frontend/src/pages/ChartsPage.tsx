@@ -31,14 +31,14 @@ const generateData = () => {
 
 const chartData = dummyData; // Use dummy data instead of generated data
 
-const formatCurrency = (value) =>
+const formatCurrency = (value: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0,
   }).format(value);
 
-const formatPercent = (value) => `${value}%`;
+const formatPercent = (value: number) => `${value}%`;
 
 export default function ChartsPage() {
   const [location, setLocation] = useState("San Francisco Bay Trends");
@@ -54,7 +54,13 @@ export default function ChartsPage() {
     <div className="w-full p-4">
       {/* Dropdown */}
       <div className="mb-4 relative">
-        <button className="w-full sm:w-auto px-4 py-2 border-2 border-gray-300 rounded-lg flex justify-between items-center" onClick={() => document.getElementById("dropdown").classList.toggle("hidden")}>
+        <button 
+          className="w-full sm:w-auto px-4 py-2 border-2 border-gray-300 rounded-lg flex justify-between items-center" 
+          onClick={() => {
+            const dropdown = document.getElementById("dropdown");
+            if (dropdown) dropdown.classList.toggle("hidden");
+          }}
+        >
           {location} <span className="ml-2">▼</span>
         </button>
         <div id="dropdown" className="absolute left-0 w-56 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-20">
@@ -64,7 +70,8 @@ export default function ChartsPage() {
               className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => {
                 setLocation(loc);
-                document.getElementById("dropdown").classList.add("hidden");
+                const dropdown = document.getElementById("dropdown");
+                if (dropdown) dropdown.classList.add("hidden");
               }}
             >
               {loc}
@@ -86,8 +93,8 @@ export default function ChartsPage() {
               <Tooltip
                 formatter={(value, name) =>
                   name === "gmDollars"
-                    ? [formatCurrency(value), "GM Dollars"]
-                    : [formatPercent(value), "GM %"]
+                    ? [formatCurrency(Number(value)), "GM Dollars"]
+                    : [formatPercent(Number(value)), "GM %"]
                 }
                 contentStyle={{ backgroundColor: "#444", border: "none" }}
                 itemStyle={{ color: "#fff" }}

@@ -35,7 +35,7 @@ function StoresPage() {
       cellRenderer: (params: any) => {
         return (
           <div className="flex items-center justify-center gap-2 mt-2 cursor-pointer" >
-            <Trash2 className="h-6 w-6 text-red-500 hover:text-red-700" onClick={() => deleteRow(params, setStoreRowData)} />
+            <Trash2 className="h-6 w-6 text-black" onClick={() => deleteRow(params, setStoreRowData)} />
           </div>
         );
       },

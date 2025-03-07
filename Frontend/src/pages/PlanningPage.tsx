@@ -304,7 +304,7 @@ const PlanningPage: React.FC = () => {
       <div className="ag-theme-alpine w-full h-full overflow-auto">
         <AgGridReact
           rowData={rowData}
-          columnDefs={columnDefs}
+          columnDefs={columnDefs as any}
           defaultColDef={defaultColDef}
           animateRows={true}
           enableCellChangeFlash={true}
