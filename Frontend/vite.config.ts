@@ -7,20 +7,23 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
+      includeAssets: ['256.png','1024.png'],
       manifest: {
         name: 'My Vite PWA',
         short_name: 'VitePWA',
         description: 'A Progressive Web App built with Vite',
         theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
         icons: [
           {
-            src: 'landroid-launchericon-48-48.png',
+            src: '256.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'landroid-launchericon-48-48.png',
+            src: '1024.png',
             sizes: '512x512',
             type: 'image/png',
           },
@@ -37,6 +40,13 @@ export default defineConfig({
                 maxEntries: 50,
                 maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
               },
+            },
+          },
+          {
+            urlPattern: ({ request }) => request.destination === 'script' || request.destination === 'style',
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'static-resources-cache',
             },
           },
         ],
