@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createTask, DeleteTask, Getalltasks, updateTaskStatus } from '../apis/api';
-import Task from '../component/Task';
+
 
 // Async thunks for API calls (replace with your actual API calls)
 export const getTasks = createAsyncThunk('tasks/getTasks', async (params:any) => {

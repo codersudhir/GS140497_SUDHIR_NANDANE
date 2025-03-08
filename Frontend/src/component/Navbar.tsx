@@ -13,10 +13,10 @@ export default function Header() {
 
       <h1 className="text-lg md:text-2xl font-semibold text-gray-800">Data Viewer App</h1>
 
-      <div className="flex items-center gap-2">
-        <button className="flex items-center gap-1 rounded-full p-1 hover:bg-gray-100">
-          <User className="h-6 w-6 text-gray-700" />
-          <ChevronDown className="h-4 w-4 text-gray-500" />
+      <div className="flex items-center gap-2 mr-4">
+        <button className="flex items-center gap-1  p-1 hover:bg-gray-100">
+          <User className="h-7 w-7 font-bold text-gray-700 text-xl rounded-full border-2 border-black p-0.5 " />
+          <ChevronDown className="h-4 w-4 text-gray-500 fill" />
         </button>
       </div>
     </header>
